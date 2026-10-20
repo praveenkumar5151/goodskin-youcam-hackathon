@@ -71,7 +71,18 @@ async function analyzePhoto(photo) {
     const data = result?.data || result;
     const state = data?.task_status || data?.status;
     if (state === 'success' || data?.results?.output || data?.score_info) return data;
-    if (state === 'error' || state === 'failed') throw new Error('YouCam could not analyze this photo. Try a clear, front-facing photo in even light.');
+    if (state === 'error' || state === 'failed') {
+      const code = String(data?.error || data?.error_code || '');
+      const photoGuidance = {
+        error_src_face_too_small: 'Move closer so your face fills most of the frame, with your full forehead and chin visible.',
+        error_face_position_too_small: 'Move closer so your face fills most of the frame, with your full forehead and chin visible.',
+        error_no_face: 'We could not find a face in this photo. Use a clear, front-facing photo with one person.',
+        error_face_not_forward_facing: 'Face the camera directly and keep your full face in view.',
+        error_face_position_invalid: 'Center your face and keep your full forehead and chin in view.',
+        error_insufficient_lighting: 'Use even light from the front and avoid strong shadows.'
+      };
+      throw new Error(photoGuidance[code] || 'YouCam could not analyze this photo. Try a clear, front-facing photo in even light.');
+    }
   }
   throw new Error('Analysis is taking longer than expected. Your photo was sent securely; please try again in a moment.');
 }

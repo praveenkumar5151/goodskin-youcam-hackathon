@@ -84,13 +84,14 @@ function collectScores(data){
 }
 function showResults(data){
   const scores=collectScores(data);
-  const overall=Number(data?.results?.all?.score??data?.score_info?.all?.score??data?.all?.score??data?.overall_score);
+  const overallSignal=scores.find(item=>['all','overall','overall score'].includes(item.name.toLowerCase()));
+  const overall=Number(data?.results?.all?.score??data?.results?.output?.all?.score??data?.score_info?.all?.score??data?.all?.score??data?.overall_score??overallSignal?.score);
   if(Number.isFinite(overall)){document.querySelector('#overall-score').textContent=Math.round(overall);document.querySelector('#overall-bar').style.width=`${Math.max(0,Math.min(100,overall))}%`}
   else {document.querySelector('#overall-score').textContent='—';document.querySelector('#overall-bar').style.width='0'}
   const pretty=name=>name.split(' ').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(' ');
   const signalContainer=document.querySelector('#signals-list');signalContainer.replaceChildren();
   const preferred=['acne','redness','moisture','texture','pore','oiliness','radiance'];
-  const visible=scores.sort((a,b)=>{const ai=preferred.indexOf(a.name.toLowerCase()),bi=preferred.indexOf(b.name.toLowerCase());return(ai<0?99:ai)-(bi<0?99:bi)}).slice(0,6);
+  const visible=scores.filter(item=>!['all','overall','overall score','skin_age'].includes(item.name.toLowerCase())).sort((a,b)=>{const ai=preferred.indexOf(a.name.toLowerCase()),bi=preferred.indexOf(b.name.toLowerCase());return(ai<0?99:ai)-(bi<0?99:bi)}).slice(0,6);
   for(const signal of visible){const item=document.createElement('div');item.className='signal';const label=document.createElement('span');label.textContent=pretty(signal.name);const value=document.createElement('strong');value.textContent=`${Math.round(signal.score)}`;item.append(label,value);signalContainer.append(item)}
   if(!visible.length){const empty=document.createElement('p');empty.className='signal-empty';empty.textContent='YouCam did not return individual skin signals for this photo.';signalContainer.append(empty)}
   const overallDescription=document.querySelector('#overall-description');if(overallDescription)overallDescription.textContent=Number.isFinite(overall)?'YouCam’s overall score for visible skin patterns in this photo. It can vary with lighting and the photo you choose.':'YouCam returned individual signals without an overall score for this check-in.';

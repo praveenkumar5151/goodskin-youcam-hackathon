@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
-import { extname, join, normalize } from 'node:path';
+import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
@@ -25,6 +25,15 @@ const apiOrigin = (process.env.YOUCAM_API_ORIGIN || 'https://yce-api-01.makeupar
 const fileApi = `${apiOrigin}/s2s/v2.0/file`;
 const skinApi = `${apiOrigin}/s2s/v2.1/task/skin-analysis`;
 const mimeTypes = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp' };
+// Serve only files the product needs; do not expose secrets, source control
+// metadata, or local work/output directories through the static route.
+const staticFiles = new Map([
+  ['/', 'index.html'],
+  ['/index.html', 'index.html'],
+  ['/styles.css', 'styles.css'],
+  ['/app.js', 'app.js'],
+  ['/public/synthetic-sample.png', 'public/synthetic-sample.png']
+]);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const requestWindows = new Map();
 const RATE_LIMIT = 5;
@@ -120,8 +129,9 @@ const server = createServer(async (request, response) => {
     } catch (error) { return sendJson(response, error.statusCode || 502, { error:error.message || 'The check-in could not be completed.' }); }
   }
   if (request.method !== 'GET' && request.method !== 'HEAD') { response.writeHead(405); return response.end('Method not allowed'); }
-  let filePath = pathname === '/' ? join(root, 'index.html') : join(root, normalize(pathname).replace(/^([/\\])+/, ''));
-  if (!filePath.startsWith(root)) { response.writeHead(403); return response.end('Forbidden'); }
+  const relativePath = staticFiles.get(pathname);
+  if (!relativePath) { response.writeHead(404); return response.end('Not found'); }
+  const filePath = join(root, relativePath);
   try {
     const content = await readFile(filePath);
     response.writeHead(200, { 'Content-Type':mimeTypes[extname(filePath)] || 'application/octet-stream', 'X-Content-Type-Options':'nosniff', 'Referrer-Policy':'strict-origin-when-cross-origin', 'X-Frame-Options':'SAMEORIGIN', 'Permissions-Policy':'camera=(), microphone=(), geolocation=()' });

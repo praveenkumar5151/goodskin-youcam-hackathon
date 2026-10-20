@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4f2eb" />
+  <meta name="description" content="A calmer way to understand your skin and choose a routine that fits." />
+  <title>Goodskin — skincare, with context</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Goodskin home"><span class="brand-mark">g</span><span>goodskin</span></a>
+    <nav aria-label="Main navigation"><a class="active" href="#check-in">Skin check-in</a><a href="#routine">Your routine</a><a href="#shop">Shop</a></nav>
+    <button class="bag-button" id="bag-button" aria-label="Shopping bag, zero items" aria-haspopup="dialog" aria-controls="bag-dialog">Bag <span id="bag-count">0</span></button>
+  </header>
+  <main id="top">
+    <section class="hero" id="check-in">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR SKIN, IN CONTEXT</div>
+        <h1>Good skin days<br /><em>start with listening.</em></h1>
+        <p class="hero-lede">A thoughtful check-in, a simple routine, and a calmer place to start with the skin you’re in today.</p>
+        <a class="text-link" href="#how-it-works">A little more about us <span>↗</span></a>
+        <div class="hero-note"><span class="note-icon">✳</span><span>One selfie. A clearer next step.<br /><small>Private by design · takes about a minute</small></span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a calm skincare moment">
+        <div class="sun-disc"></div><div class="plant plant-one"><i></i><i></i><i></i><i></i></div>
+        <div class="portrait"><div class="hair"></div><div class="face"><i class="brow left"></i><i class="brow right"></i><i class="eye left"></i><i class="eye right"></i><i class="nose"></i><i class="mouth"></i><i class="ear left"></i><i class="ear right"></i></div><div class="neck"></div><div class="shirt"></div></div>
+        <div class="art-caption"><span class="caption-spark">✳</span><span>Less guessing.<br /><strong>More knowing.</strong></span></div>
+        <div class="small-flower">✿</div>
+      </div>
+    </section>
+
+    <section class="checkin-shell" id="how-it-works">
+      <div class="section-intro"><div class="eyebrow">A GENTLER KIND OF SKINCARE</div><h2>Start with a check-in.</h2><p>Upload a clear, front-facing photo. We’ll look at visible skin concerns and help you make sense of what to try next.</p></div>
+      <div class="checkin-card">
+        <div class="upload-panel" id="dropzone">
+          <input id="photo-input" type="file" accept="image/jpeg,image/png,image/webp" hidden />
+          <div id="upload-empty" class="upload-empty"><div class="upload-icon"><span>↑</span></div><h3>Bring your skin into focus</h3><p>Choose a photo or take one now.<br />A clear, front-facing selfie works best.</p><button class="button button-dark" id="choose-photo">Choose a photo</button><button class="sample-button" id="sample-photo">Try a synthetic sample</button><span class="upload-meta">JPG, PNG or WebP · up to 10 MB</span><span class="sample-note">The sample is AI-generated, not a real person.</span></div>
+          <div id="upload-preview" class="upload-preview hidden"><img id="preview-image" alt="Your selected selfie" /><div class="preview-controls"><span id="photo-name"></span><button id="remove-photo" class="quiet-button">Remove</button></div></div>
+        </div>
+        <div class="checkin-details"><div class="step-label"><span>01</span> YOUR CHECK-IN · POWERED BY YOUCAM</div><h3>A useful starting point,<br /><em>never a diagnosis.</em></h3><p class="detail-copy">Our skin check-in looks for patterns in areas like texture, pores, and visible redness. Use it as a guide for better questions and a simpler routine.</p>
+          <div class="privacy-line"><span class="lock" aria-hidden="true">⌑</span><span><strong>Your photo stays yours.</strong><br />It’s sent to YouCam for analysis and isn’t stored by Goodskin.</span></div>
+          <label class="consent"><input type="checkbox" id="consent" /><span>I consent to sending this photo to YouCam for AI skin analysis.</span></label>
+          <button class="button button-olive" id="analyze-button" disabled>Start my check-in <span>→</span></button>
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+          <div class="fineprint">For personal guidance only. Not medical advice.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="results-section hidden" id="results">
+      <div class="results-heading"><div><div class="eyebrow">YOUR CHECK-IN, AT A GLANCE</div><h2>A little more clarity.</h2></div><span class="result-live"><i></i> ANALYSIS COMPLETE</span></div>
+      <div class="results-grid"><article class="score-card"><span class="card-kicker">OVERALL SKIN SCORE</span><div class="score-wrap"><strong id="overall-score">—</strong><span>/ 100</span></div><p id="overall-description">A snapshot of visible skin patterns today. Scores can shift with lighting and the photo you choose.</p><div class="score-bar"><span id="overall-bar"></span></div><small>Higher scores indicate healthier-looking skin in this photo.</small></article>
+        <article class="signals-card"><span class="card-kicker">WHAT WE NOTICED</span><div id="signals-list"></div></article>
+        <article class="next-card"><span class="card-kicker">A SIMPLE NEXT STEP</span><div class="next-illustration">✳</div><h3>Keep the routine<br />kind and consistent.</h3><p>Start with the basics: a gentle cleanse, moisturizer, and daily SPF. Add one targeted product at a time.</p><a href="#routine" class="text-link">Explore a simple routine <span>↓</span></a></article></div>
+      <p class="results-disclaimer">AI-generated cosmetic insights are not a medical assessment. If you have persistent or painful concerns, speak with a qualified professional.</p>
+    </section>
+
+    <section class="routine-section" id="routine"><div class="routine-heading"><div><div class="eyebrow">A ROUTINE THAT LEAVES ROOM TO BREATHE</div><h2>Three steps. <em>Plenty.</em></h2></div><p>Good skincare doesn’t need a crowded shelf. Start here, then build slowly around what feels right.</p></div>
+      <div class="routine-cards" id="shop"><article class="routine-card"><div class="product-art art-cleanser"><div class="bottle"><span>g</span></div><div class="art-stem"></div></div><div class="product-info"><span class="product-step">STEP 01 · MORNING & NIGHT</span><h3>Soft Start Cleanser</h3><p>A gentle, no-fuss cleanse that leaves your skin feeling comfortable.</p><div class="product-bottom"><span>₹499</span><button class="add-button" data-add="Soft Start Cleanser">Add <span>+</span></button></div></div></article>
+      <article class="routine-card"><div class="product-art art-moisture"><div class="jar"><span>g</span></div><div class="art-sun"></div></div><div class="product-info"><span class="product-step">STEP 02 · MORNING & NIGHT</span><h3>Daily Comfort Cream</h3><p>Lightweight hydration that layers easily, morning to night.</p><div class="product-bottom"><span>₹899</span><button class="add-button" data-add="Daily Comfort Cream">Add <span>+</span></button></div></div></article>
+      <article class="routine-card"><div class="product-art art-spf"><div class="tube"><span>g</span></div><div class="art-flower">✿</div></div><div class="product-info"><span class="product-step">STEP 03 · EVERY MORNING</span><h3>Everyday SPF 30</h3><p>Broad-spectrum protection for the step worth showing up for.</p><div class="product-bottom"><span>₹699</span><button class="add-button" data-add="Everyday SPF 30">Add <span>+</span></button></div></div></article></div>
+      <p class="demo-store-note">Demo storefront · Products and prices are illustrative. No checkout or orders are available.</p>
+      <div class="cart-toast hidden" id="cart-toast" role="status">Added to your bag <span>✓</span></div>
+    </section>
+    <section class="closing" aria-label="Goodskin promise"><span class="closing-mark">g</span><p>Skincare with less pressure.<br /><em>And a little more perspective.</em></p><span class="closing-caption">GOODSKIN · MADE FOR REAL LIFE</span></section>
+  </main>
+  <dialog class="bag-dialog" id="bag-dialog" aria-labelledby="bag-title">
+    <div class="bag-dialog-header"><div><span class="eyebrow">YOUR EDIT</span><h2 id="bag-title">Shopping bag</h2></div><button class="quiet-button" id="close-bag" aria-label="Close shopping bag">Close</button></div>
+    <div class="bag-items" id="bag-items"><p class="bag-empty">Your bag is empty for now.</p></div>
+    <div class="bag-dialog-footer"><span>Illustrative subtotal</span><strong id="bag-subtotal">₹0</strong><p>Demo only. No checkout or purchase will take place.</p></div>
+  </dialog>
+  <footer><a class="brand" href="#top"><span class="brand-mark">g</span><span>goodskin</span></a><span>Thoughtful skincare starts with you.</span><a href="#check-in">Back to your check-in ↑</a></footer>
+  <script src="/app.js" defer></script>
+</body>
+</html>

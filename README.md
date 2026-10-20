@@ -2,6 +2,12 @@
 
 **Skincare, with context.** Goodskin turns a skin check-in into a calmer shopping experience: a visitor can consent to a YouCam AI Skin Analysis, see a small set of cosmetic signals, and explore a simple three-step routine.
 
+### Storyboard preview
+
+![Animated storyboard of Goodskin's consent, YouCam analysis flow, cosmetic signals, and illustrative routine](public/goodskin-storyboard.gif)
+
+This storyboard previews the user flow. A public demo video is still required for the Devpost submission.
+
 ## Why it exists
 
 Online skincare shopping often starts with a long list of products and little context. Goodskin begins with the customer's question, explains what an image-based check-in can and cannot tell them, and keeps the next step intentionally simple. The sample routine is educational storefront content, not a medical prescription.

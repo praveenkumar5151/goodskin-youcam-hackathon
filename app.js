@@ -1,3 +1,4 @@
+import {catalog} from '/routine-planner.mjs';
 const fileInput=document.querySelector('#photo-input');
 const chooseButton=document.querySelector('#choose-photo');
 const consent=document.querySelector('#consent');
@@ -10,11 +11,7 @@ let isSyntheticSample=false;
 let bagCount=0;
 let latestScores=[];
 const bag=new Map();
-const products=new Map([
-  ['Soft Start Cleanser',{price:499}],
-  ['Daily Comfort Cream',{price:899}],
-  ['Everyday SPF 30',{price:699}]
-]);
+const products=new Map(catalog.map(product=>[product.name,product]));
 const inr=value=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(value);
 
 function updateReady(){analyzeButton.disabled=!(selectedFile&&consent.checked)}
@@ -115,10 +112,10 @@ analyzeButton.addEventListener('click',async()=>{
 });
 
 const focusPlans={
-  simple:{title:'Your edit: the three everyday basics.',body:'Cleanse gently, moisturize, and finish with daytime sun protection. This is general cosmetic guidance, not a personalized treatment plan.',product:null,signal:[]},
-  comfort:{title:'Your edit: make comfort your shopping question.',body:'Keep the basics, then compare moisturizers by feel, ingredients, and your own preferences. The cream below is an illustrative demo item, not a treatment recommendation.',product:'Daily Comfort Cream',signal:['moisture']},
-  texture:{title:'Your edit: start with a gentle, low-pressure routine.',body:'A cleanser is a simple place to begin. Avoid treating a photo score as a reason to add strong actives; the item below is illustrative, not a treatment recommendation.',product:'Soft Start Cleanser',signal:['texture']},
-  sun:{title:'Your edit: keep daytime protection in view.',body:'Choose a broad-spectrum sunscreen you enjoy using and follow its label. The SPF item below is illustrative demo content, not a real product listing.',product:'Everyday SPF 30',signal:[]}
+  simple:{title:'Your starting point: keep what you own.',body:'Use the planner below to identify missing steps and fit the new items to your budget. The sample catalog is a shopping sandbox, not a treatment plan.',signal:[]},
+  comfort:{title:'Your question: what feels comfortable?',body:'Use your texture preference and budget to compare demo moisturizers in the planner. The related signal is context about this photo, not a product suitability claim.',signal:['moisture']},
+  texture:{title:'Your question: how can I keep this simple?',body:'Use the planner to retain existing products and avoid duplicate steps. A photo score cannot tell which product will suit you.',signal:['texture']},
+  sun:{title:'Your question: what is missing from my daytime routine?',body:'Review what you already own and your budget in the planner. A skin score is not needed to explore daytime protection.',signal:[]}
 };
 function updateFocus(key){
   const plan=focusPlans[key]||focusPlans.simple;
@@ -127,26 +124,33 @@ function updateFocus(key){
   const result=document.querySelector('#focus-result');result.replaceChildren();
   const title=document.createElement('strong');title.textContent=plan.title;const body=document.createElement('span');body.textContent=plan.body;result.append(title,body);
   if(plan.signal.length){const context=document.createElement('span');context.className='focus-signal';context.textContent=matchingSignal?`Related YouCam signal in this photo: ${matchingSignal.name} ${Math.round(matchingSignal.score)}/100. The number is shown as returned; it does not tell you what to buy.`:'No matching YouCam signal was returned for this photo. Your preference still guides this edit.';result.append(context)}
-  document.querySelectorAll('.routine-card').forEach(card=>{const matches=card.querySelector('[data-add]')?.dataset.add===plan.product;card.classList.toggle('focus-match',Boolean(plan.product&&matches));let badge=card.querySelector('.focus-match-label');if(matches&&plan.product){if(!badge){badge=document.createElement('span');badge.className='focus-match-label';badge.textContent='YOUR FOCUS';card.querySelector('.product-info').prepend(badge)}}else badge?.remove()});
-  const intro=document.querySelector('#routine-intro');intro.textContent=plan.product?`Your choice sets the focus. The highlighted demo item is here to explore; it is not selected by a skin score.`:'Good skincare doesn’t need a crowded shelf. Start here, then build slowly around what feels right.';
+  document.querySelectorAll('.routine-card').forEach(card=>{card.classList.remove('focus-match');card.querySelector('.focus-match-label')?.remove()});
+  document.querySelector('#routine-intro').textContent='Three examples from the seven-item sample catalog. The planner compares eligible items using your preferences and prices.';
+  window.dispatchEvent(new CustomEvent('goodskin:focus',{detail:{label:document.querySelector('.focus-option.selected')?.textContent.trim()||'Keep it simple',signal:matchingSignal?`${matchingSignal.name} ${Math.round(matchingSignal.score)}/100`:null,hasAnalysis:latestScores.length>0}}));
 }
 document.querySelectorAll('.focus-option').forEach(button=>button.addEventListener('click',()=>updateFocus(button.dataset.focus)));
 document.querySelector('#clear-checkin').addEventListener('click',()=>{
   selectedFile=null;isSyntheticSample=false;fileInput.value='';consent.checked=false;if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;
   document.querySelector('#preview-image').removeAttribute('src');document.querySelector('#upload-preview').classList.add('hidden');document.querySelector('#upload-empty').classList.remove('hidden');
-  document.querySelector('#overall-score').textContent='—';document.querySelector('#overall-bar').style.width='0';document.querySelector('#signals-list').replaceChildren();document.querySelector('#results').classList.add('hidden');latestScores=[];updateFocus('simple');showStatus('Your photo and check-in results were cleared from this page.');updateReady();document.querySelector('#check-in').scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelector('#overall-score').textContent='—';document.querySelector('#overall-bar').style.width='0';document.querySelector('#signals-list').replaceChildren();document.querySelector('#results').classList.add('hidden');latestScores=[];updateFocus('simple');window.dispatchEvent(new CustomEvent('goodskin:clear'));showStatus('Your photo and check-in results were cleared from this page.');updateReady();document.querySelector('#check-in').scrollIntoView({behavior:'smooth',block:'start'});
 });
 
 function renderBag(){
   const list=document.querySelector('#bag-items');list.replaceChildren();let subtotal=0;bagCount=0;
   if(!bag.size){const empty=document.createElement('p');empty.className='bag-empty';empty.textContent='Your bag is empty for now.';list.append(empty)}
-  for(const [name,quantity] of bag){const product=products.get(name);if(!product)continue;subtotal+=product.price*quantity;bagCount+=quantity;const row=document.createElement('div');row.className='bag-item';const details=document.createElement('div');const title=document.createElement('strong');title.textContent=name;const count=document.createElement('span');count.textContent=`Qty ${quantity}`;details.append(title,count);const price=document.createElement('strong');price.textContent=inr(product.price*quantity);row.append(details,price);list.append(row)}
+  for(const [name,quantity] of bag){const product=products.get(name);if(!product)continue;subtotal+=product.price*quantity;bagCount+=quantity;const row=document.createElement('div');row.className='bag-item';const details=document.createElement('div');const title=document.createElement('strong');title.textContent=name;const count=document.createElement('span');count.textContent=`Qty ${quantity}`;const controls=document.createElement('div');controls.className='bag-item-controls';for(const [label,delta] of [['Remove one',-1],['Add one',1]]){const button=document.createElement('button');button.type='button';button.textContent=delta<0?'−':'+';button.setAttribute('aria-label',`${label} ${name}`);button.addEventListener('click',()=>{const next=(bag.get(name)||0)+delta;if(next<=0)bag.delete(name);else bag.set(name,Math.min(99,next));renderBag()});controls.append(button)}details.append(title,count,controls);const price=document.createElement('strong');price.textContent=inr(product.price*quantity);row.append(details,price);list.append(row)}
   document.querySelector('#bag-count').textContent=bagCount;document.querySelector('.bag-button').setAttribute('aria-label',`Shopping bag, ${bagCount} items`);document.querySelector('#bag-subtotal').textContent=inr(subtotal);
+  window.dispatchEvent(new CustomEvent('goodskin:bag',{detail:{ids:[...bag.keys()].map(name=>products.get(name)?.id).filter(Boolean)}}));
 }
 document.querySelectorAll('[data-add]').forEach(button=>button.addEventListener('click',()=>{
   const name=button.dataset.add;bag.set(name,(bag.get(name)||0)+1);renderBag();
   const toast=document.querySelector('#cart-toast');toast.querySelector('span').textContent='✓';toast.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.add('hidden'),2200);
 }));
+window.addEventListener('goodskin:add-plan',event=>{
+  if(!Array.isArray(event.detail?.ids))return;
+  for(const id of new Set(event.detail.ids)){const product=catalog.find(item=>item.id===id);if(product)bag.set(product.name,Math.min(99,(bag.get(product.name)||0)+1))}
+  renderBag();bagDialog.showModal();
+});
 const bagDialog=document.querySelector('#bag-dialog');
 document.querySelector('#bag-button').addEventListener('click',()=>bagDialog.showModal());
 document.querySelector('#close-bag').addEventListener('click',()=>bagDialog.close());

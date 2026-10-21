@@ -1,4 +1,6 @@
-# Goodskin narrated product walkthrough
+# Goodskin baseline narrated product walkthrough
+
+This script predates the budget/reuse planner. Do not treat this as the final competition recording plan. The final cut must show the upgraded app functioning, including the budget gap and missing-items bag.
 
 Current deliverable: `outputs/goodskin-demo-explained.mp4` — 2:29, 1080p, H.264 + AAC speech.
 

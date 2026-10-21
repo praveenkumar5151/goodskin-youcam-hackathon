@@ -54,16 +54,18 @@ The photo is sent to YouCam for processing after the user checks the consent box
 ## Hackathon submission draft
 
 **Project name:** Goodskin  
-**Tagline:** Skincare, with context.  
+**Tagline:** Skin context. Keep what you own. Fit the rest to your budget.  
 **Built with:** Node.js, HTML, CSS, JavaScript, YouCam AI Skin Analysis API
 
 **License:** MIT (see `LICENSE`).
 
 **Description:** Goodskin helps a shopper move from a consent-based YouCam skin check-in to a transparent shopping edit. A visitor reviews returned cosmetic signals and chooses a focus, then sets a budget and marks the steps already owned. The planner filters a seven-item illustrative catalog by preferences, finds the least expensive missing-step combination, explains the selection, and shows any budget gap. It adds only missing items to a removable bag and can download a decision card. An AI score does not diagnose a need or select products. Clear check-in removes the photo preview and results. The key stays server-side; the app saves no photos, profiles, or check-in history. There is no checkout or real product listing.
 
+**[Watch the public YouTube demo](https://youtu.be/fwUJUsK45CY)** (2:41).
+
 **Current competition demo:** [`outputs/goodskin-competition-demo.mp4`](outputs/goodskin-competition-demo.mp4) (2:41, 1080p, H.264 + AAC narration) shows the upgraded app: fresh YouCam response, user-chosen focus, budget and owned-product edits, budget shortfall, and bag removal/re-addition. It uses actual browser frames captured at approximately 5 fps, with idle endings trimmed and final observed states held for narration; it is edited footage, not an uninterrupted recording. The synthetic face, synthetic narration, and illustrative catalog are disclosed. [Transcript](outputs/goodskin-competition-demo-transcript.txt) · [Captions](outputs/goodskin-competition-demo.srt) · [Local preview](outputs/goodskin-competition-preview.html).
 
-The older `goodskin-demo-explained.mp4` is an earlier-prototype reference. Use the competition demo above for the submission. A public YouTube or Vimeo URL still needs to be added to Devpost. The public explorer and video are available on GitHub Pages; a hosted server for fresh analysis remains pending. The explorer explicitly uses a recorded example and does not accept personal photos.
+The older `goodskin-demo-explained.mp4` is an earlier-prototype reference. Use the competition demo above for the submission. The public YouTube link is saved in the Devpost draft. The public explorer and video are available on GitHub Pages; a hosted server for fresh analysis remains pending. The explorer explicitly uses a recorded example and does not accept personal photos.
 
 ### Current video chapters
 

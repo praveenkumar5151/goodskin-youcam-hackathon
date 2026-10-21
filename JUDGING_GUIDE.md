@@ -5,7 +5,7 @@ Goodskin explores a specific purchase decision: a skincare shopper in India alre
 ## Two evaluation paths
 
 - **Public explorer (`docs/`):** A static app with a clearly labeled recorded example. Values are normalized transcriptions from the live synthetic-sample run shown in the competition video on 21 October 2026. It accepts no personal photos, has no upload endpoint, and makes no live YouCam request. The budget, ownership, filtering, comparisons, bag, and decision card run in the visitor's browser.
-- **Live integration (`npm start`):** The Node build performs new YouCam analysis after consent. Set the API key privately in the server environment. The public 2:41 video demonstrates a fresh successful API run and the upgraded shopping workflow.
+- **Live integration (`npm start`):** The Node build performs new YouCam analysis after consent. Set the API key privately in the server environment. The [public 2:41 video](https://youtu.be/fwUJUsK45CY) demonstrates a fresh successful API run and the upgraded shopping workflow.
 
 The explorer is a reliable way to inspect the shopping interaction, not a claim that GitHub Pages runs the server or provides fresh AI analysis.
 

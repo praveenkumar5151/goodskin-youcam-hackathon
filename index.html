@@ -53,14 +53,24 @@
     </section>
 
     <section class="results-section hidden" id="results">
-      <div class="results-heading"><div><div class="eyebrow">YOUR CHECK-IN, AT A GLANCE</div><h2>A little more clarity.</h2></div><span class="result-live"><i></i> ANALYSIS COMPLETE</span></div>
+      <div class="results-heading"><div><div class="eyebrow">YOUR CHECK-IN, AT A GLANCE</div><h2>A little more clarity.</h2></div><div class="results-actions"><span class="result-live"><i></i> ANALYSIS COMPLETE</span><button class="quiet-button clear-checkin" id="clear-checkin">Clear check-in</button></div></div>
       <div class="results-grid"><article class="score-card"><span class="card-kicker">OVERALL SKIN SCORE</span><div class="score-wrap"><strong id="overall-score">—</strong><span>/ 100</span></div><p id="overall-description">A snapshot of visible skin patterns today. Scores can shift with lighting and the photo you choose.</p><div class="score-bar"><span id="overall-bar"></span></div><small>Higher scores indicate healthier-looking skin in this photo.</small></article>
         <article class="signals-card"><span class="card-kicker">WHAT WE NOTICED</span><div id="signals-list"></div></article>
         <article class="next-card"><span class="card-kicker">A SIMPLE NEXT STEP</span><div class="next-illustration">✳</div><h3>Keep the routine<br />kind and consistent.</h3><p>Start with the basics: a gentle cleanse, moisturizer, and daily SPF. Add one targeted product at a time.</p><a href="#routine" class="text-link">Explore a simple routine <span>↓</span></a></article></div>
+      <section class="focus-builder" aria-labelledby="focus-title">
+        <div class="focus-copy"><div class="eyebrow">FROM A SIGNAL TO YOUR OWN FOCUS</div><h3 id="focus-title">What matters to you today?</h3><p>Choose the question you want to shop around. Your preference guides the edit; an AI score never decides what you need.</p></div>
+        <div class="focus-options" role="group" aria-label="Choose a routine focus">
+          <button class="focus-option selected" data-focus="simple" aria-pressed="true">Keep it simple</button>
+          <button class="focus-option" data-focus="comfort" aria-pressed="false">Comfort &amp; hydration</button>
+          <button class="focus-option" data-focus="texture" aria-pressed="false">Texture questions</button>
+          <button class="focus-option" data-focus="sun" aria-pressed="false">Everyday sun care</button>
+        </div>
+        <div class="focus-result" id="focus-result" aria-live="polite"><strong>Your edit: the three everyday basics.</strong><span>Cleanse gently, moisturize, and finish with daytime sun protection. This is general cosmetic guidance, not a personalized treatment plan.</span></div>
+      </section>
       <p class="results-disclaimer">AI-generated cosmetic insights are not a medical assessment. If you have persistent or painful concerns, speak with a qualified professional.</p>
     </section>
 
-    <section class="routine-section" id="routine"><div class="routine-heading"><div><div class="eyebrow">A ROUTINE THAT LEAVES ROOM TO BREATHE</div><h2>Three steps. <em>Plenty.</em></h2></div><p>Good skincare doesn’t need a crowded shelf. Start here, then build slowly around what feels right.</p></div>
+    <section class="routine-section" id="routine"><div class="routine-heading"><div><div class="eyebrow">A ROUTINE THAT LEAVES ROOM TO BREATHE</div><h2>Three steps. <em>Plenty.</em></h2></div><p id="routine-intro">Good skincare doesn’t need a crowded shelf. Start here, then build slowly around what feels right.</p></div>
       <div class="routine-cards" id="shop"><article class="routine-card"><div class="product-art art-cleanser"><div class="bottle"><span>g</span></div><div class="art-stem"></div></div><div class="product-info"><span class="product-step">STEP 01 · MORNING & NIGHT</span><h3>Soft Start Cleanser</h3><p>A gentle, no-fuss cleanse that leaves your skin feeling comfortable.</p><div class="product-bottom"><span>₹499</span><button class="add-button" data-add="Soft Start Cleanser">Add <span>+</span></button></div></div></article>
       <article class="routine-card"><div class="product-art art-moisture"><div class="jar"><span>g</span></div><div class="art-sun"></div></div><div class="product-info"><span class="product-step">STEP 02 · MORNING & NIGHT</span><h3>Daily Comfort Cream</h3><p>Lightweight hydration that layers easily, morning to night.</p><div class="product-bottom"><span>₹899</span><button class="add-button" data-add="Daily Comfort Cream">Add <span>+</span></button></div></div></article>
       <article class="routine-card"><div class="product-art art-spf"><div class="tube"><span>g</span></div><div class="art-flower">✿</div></div><div class="product-info"><span class="product-step">STEP 03 · EVERY MORNING</span><h3>Everyday SPF 30</h3><p>Broad-spectrum protection for the step worth showing up for.</p><div class="product-bottom"><span>₹699</span><button class="add-button" data-add="Everyday SPF 30">Add <span>+</span></button></div></div></article></div>

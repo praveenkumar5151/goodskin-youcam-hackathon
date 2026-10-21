@@ -8,6 +8,7 @@ let selectedFile=null;
 let objectUrl=null;
 let isSyntheticSample=false;
 let bagCount=0;
+let latestScores=[];
 const bag=new Map();
 const products=new Map([
   ['Soft Start Cleanser',{price:499}],
@@ -84,6 +85,7 @@ function collectScores(data){
 }
 function showResults(data){
   const scores=collectScores(data);
+  latestScores=scores;
   const overallSignal=scores.find(item=>['all','overall','overall score'].includes(item.name.toLowerCase()));
   const overall=Number(data?.results?.all?.score??data?.results?.output?.all?.score??data?.score_info?.all?.score??data?.all?.score??data?.overall_score??overallSignal?.score);
   if(Number.isFinite(overall)){document.querySelector('#overall-score').textContent=Math.round(overall);document.querySelector('#overall-bar').style.width=`${Math.max(0,Math.min(100,overall))}%`}
@@ -97,6 +99,7 @@ function showResults(data){
   const overallDescription=document.querySelector('#overall-description');if(overallDescription)overallDescription.textContent=Number.isFinite(overall)?'YouCam’s overall score for visible skin patterns in this photo. It can vary with lighting and the photo you choose.':'YouCam returned individual signals without an overall score for this check-in.';
   document.querySelector('#results .result-live').innerHTML='<i></i> ANALYSIS COMPLETE';
   document.querySelector('#results').classList.remove('hidden');document.querySelector('#results').scrollIntoView({behavior:'smooth',block:'start'});
+  updateFocus('simple');
 }
 analyzeButton.addEventListener('click',async()=>{
   if(!selectedFile||!consent.checked)return;
@@ -109,6 +112,29 @@ analyzeButton.addEventListener('click',async()=>{
     showStatus('Your check-in is ready.');showResults(payload);
   }catch(error){showStatus(error.message||'Something went wrong. Please try again.',true)}
   finally{analyzeButton.innerHTML='Start my check-in <span>→</span>';updateReady()}
+});
+
+const focusPlans={
+  simple:{title:'Your edit: the three everyday basics.',body:'Cleanse gently, moisturize, and finish with daytime sun protection. This is general cosmetic guidance, not a personalized treatment plan.',product:null,signal:[]},
+  comfort:{title:'Your edit: make comfort your shopping question.',body:'Keep the basics, then compare moisturizers by feel, ingredients, and your own preferences. The cream below is an illustrative demo item, not a treatment recommendation.',product:'Daily Comfort Cream',signal:['moisture']},
+  texture:{title:'Your edit: start with a gentle, low-pressure routine.',body:'A cleanser is a simple place to begin. Avoid treating a photo score as a reason to add strong actives; the item below is illustrative, not a treatment recommendation.',product:'Soft Start Cleanser',signal:['texture']},
+  sun:{title:'Your edit: keep daytime protection in view.',body:'Choose a broad-spectrum sunscreen you enjoy using and follow its label. The SPF item below is illustrative demo content, not a real product listing.',product:'Everyday SPF 30',signal:[]}
+};
+function updateFocus(key){
+  const plan=focusPlans[key]||focusPlans.simple;
+  document.querySelectorAll('.focus-option').forEach(button=>{const active=button.dataset.focus===key;button.classList.toggle('selected',active);button.setAttribute('aria-pressed',String(active))});
+  const matchingSignal=plan.signal.length?latestScores.find(item=>plan.signal.some(name=>item.name.toLowerCase().includes(name))):null;
+  const result=document.querySelector('#focus-result');result.replaceChildren();
+  const title=document.createElement('strong');title.textContent=plan.title;const body=document.createElement('span');body.textContent=plan.body;result.append(title,body);
+  if(plan.signal.length){const context=document.createElement('span');context.className='focus-signal';context.textContent=matchingSignal?`Related YouCam signal in this photo: ${matchingSignal.name} ${Math.round(matchingSignal.score)}/100. The number is shown as returned; it does not tell you what to buy.`:'No matching YouCam signal was returned for this photo. Your preference still guides this edit.';result.append(context)}
+  document.querySelectorAll('.routine-card').forEach(card=>{const matches=card.querySelector('[data-add]')?.dataset.add===plan.product;card.classList.toggle('focus-match',Boolean(plan.product&&matches));let badge=card.querySelector('.focus-match-label');if(matches&&plan.product){if(!badge){badge=document.createElement('span');badge.className='focus-match-label';badge.textContent='YOUR FOCUS';card.querySelector('.product-info').prepend(badge)}}else badge?.remove()});
+  const intro=document.querySelector('#routine-intro');intro.textContent=plan.product?`Your choice sets the focus. The highlighted demo item is here to explore; it is not selected by a skin score.`:'Good skincare doesn’t need a crowded shelf. Start here, then build slowly around what feels right.';
+}
+document.querySelectorAll('.focus-option').forEach(button=>button.addEventListener('click',()=>updateFocus(button.dataset.focus)));
+document.querySelector('#clear-checkin').addEventListener('click',()=>{
+  selectedFile=null;isSyntheticSample=false;fileInput.value='';consent.checked=false;if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;
+  document.querySelector('#preview-image').removeAttribute('src');document.querySelector('#upload-preview').classList.add('hidden');document.querySelector('#upload-empty').classList.remove('hidden');
+  document.querySelector('#overall-score').textContent='—';document.querySelector('#overall-bar').style.width='0';document.querySelector('#signals-list').replaceChildren();document.querySelector('#results').classList.add('hidden');latestScores=[];updateFocus('simple');showStatus('Your photo and check-in results were cleared from this page.');updateReady();document.querySelector('#check-in').scrollIntoView({behavior:'smooth',block:'start'});
 });
 
 function renderBag(){

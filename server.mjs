@@ -25,14 +25,22 @@ const apiOrigin = (process.env.YOUCAM_API_ORIGIN || 'https://yce-api-01.makeupar
 const fileApi = `${apiOrigin}/s2s/v2.0/file`;
 const skinApi = `${apiOrigin}/s2s/v2.1/task/skin-analysis`;
 const mimeTypes = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp' };
-// Serve only files the product needs; do not expose secrets, source control
-// metadata, or local work/output directories through the static route.
+// Serve only files the product needs. In particular, never expose .env, source
+// control metadata, or local work/output directories through the static route.
 const staticFiles = new Map([
   ['/', 'index.html'],
   ['/index.html', 'index.html'],
   ['/styles.css', 'styles.css'],
   ['/app.js', 'app.js'],
-  ['/public/synthetic-sample.png', 'public/synthetic-sample.png']
+  ['/public/synthetic-sample.png', 'public/synthetic-sample.png'],
+  // Local-only captioned demo builder and the verified screens it uses.
+  ['/record-demo.html', 'work/record-demo.html'],
+  ['/demo/home.png', 'outputs/goodskin-live-01-home.png'],
+  ['/demo/consent.png', 'outputs/goodskin-live-02-consent.png'],
+  ['/demo/api-flow.png', 'outputs/goodskin-storyboard-03.png'],
+  ['/demo/results.png', 'outputs/goodskin-live-03-results.png'],
+  ['/demo/routine.png', 'outputs/goodskin-live-04-routine.png'],
+  ['/demo/bag.png', 'outputs/goodskin-live-05-bag.png']
 ]);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const requestWindows = new Map();

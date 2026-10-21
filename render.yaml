@@ -1,0 +1,18 @@
+# Public prototype hosting. No credentials belong in this file.
+services:
+  - type: web
+    name: goodskin-youcam
+    runtime: node
+    plan: free
+    buildCommand: node --version
+    startCommand: node server.mjs
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: HOST
+        value: 0.0.0.0
+      - key: YOUCAM_API_ORIGIN
+        value: https://yce-api-01.makeupar.com
+      - key: YOUCAM_API_KEY
+        sync: false

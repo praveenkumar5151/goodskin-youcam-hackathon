@@ -55,25 +55,32 @@ The photo is sent to YouCam for processing after the user checks the consent box
 
 **Description:** Goodskin helps a shopper move from a consent-based YouCam skin check-in to a transparent shopping edit. A visitor reviews returned cosmetic signals and chooses a focus, then sets a budget and marks the steps already owned. The planner filters a seven-item illustrative catalog by preferences, finds the least expensive missing-step combination, explains the selection, and shows any budget gap. It adds only missing items to a removable bag and can download a decision card. An AI score does not diagnose a need or select products. Clear check-in removes the photo preview and results. The key stays server-side; the app saves no photos, profiles, or check-in history. There is no checkout or real product listing.
 
-**Baseline narrated demo:** [`outputs/goodskin-demo-explained.mp4`](outputs/goodskin-demo-explained.mp4) (2:29, 1080p, H.264 + AAC speech) explains the version before the budget-planner upgrade. It is an edited screenshot walkthrough with synthetic narration, not a continuous interaction recording. Its [transcript](outputs/goodskin-demo-explained-transcript.txt), [captions](outputs/goodskin-demo-explained.srt), and [preview](outputs/goodskin-demo-preview.html) are included for reference. A final 1–3 minute video must still show actual interaction footage of the upgraded flow, then be uploaded publicly to YouTube or Vimeo and linked in Devpost. The current localhost app is not a public hosted build; judge access also remains to be arranged.
+**Current competition demo:** [`outputs/goodskin-competition-demo.mp4`](outputs/goodskin-competition-demo.mp4) (2:41, 1080p, H.264 + AAC narration) shows the upgraded app: fresh YouCam response, user-chosen focus, budget and owned-product edits, budget shortfall, and bag removal/re-addition. It uses actual browser frames captured at approximately 5 fps, with idle endings trimmed and final observed states held for narration; it is edited footage, not an uninterrupted recording. The synthetic face, synthetic narration, and illustrative catalog are disclosed. [Transcript](outputs/goodskin-competition-demo-transcript.txt) · [Captions](outputs/goodskin-competition-demo.srt) · [Local preview](outputs/goodskin-competition-preview.html).
 
-### Narrated walkthrough (2:29)
+The older `goodskin-demo-explained.mp4` is an earlier-prototype reference. Use the competition demo above for the submission. A public YouTube or Vimeo URL still needs to be added to Devpost. Judge access to a hosted app also remains pending.
 
-1. **0:00 — What should I explore first?**
-2. **0:12 — Meet Goodskin**
-3. **0:25 — Start with a photo**
-4. **0:38 — Ask before sending**
-5. **0:49 — YouCam does the analysis**
-6. **1:01 — Read the returned signals**
-7. **1:19 — The shopper chooses the focus**
-8. **1:34 — Keep the next step small**
-9. **1:49 — Explore an item in the bag**
-10. **2:02 — Clear the check-in**
-11. **2:15 — Skincare, with context.**
+### Current video chapters
+
+- **0:00** — The decision: what do I actually need to buy?
+- **0:11** — 1 / A synthetic sample. Explicit consent.
+- **0:28** — 2 / A real YouCam API response
+- **0:48** — 3 / The shopper chooses the focus
+- **1:02** — 4 / Keep cleanser. Fit the missing steps.
+- **1:23** — 5 / A smaller budget reveals the gap
+- **1:39** — 6 / Add only what is missing
+- **1:53** — 7 / Remove, reconsider, and re-add safely
+- **2:09** — 8 / Explain the choice
+- **2:24** — Goodskin / Check in. Reuse. Choose within budget.
+
+## Hosting handoff
+
+`render.yaml` prepares a free Node web service with `HOST=0.0.0.0`, Render's assigned `PORT`, and `/api/health`. It contains no credential. Deployment has not been completed or verified. Supply the YouCam key only in the hosting provider's secret environment, after authorizing that provider to hold it. The current local environment has not been transferred to a hosting provider.
+
+A public endpoint spends the configured account's units when visitors request analysis. The current per-process limit of five requests per minute is a prototype limit, not a durable account-wide credit budget. Set a provider/account usage cap and access policy before sharing the live analysis service widely. Render's free instance can sleep after inactivity, so allow time for a cold start. See [Render web services](https://render.com/docs/web-services), [free limits](https://render.com/docs/free), and [Blueprint environment variables](https://render.com/docs/blueprint-spec).
 
 ## Judging fit
 
-- **Implementation:** The official YouCam file and Skin Analysis task workflow is implemented in the server; this submission should only be described as live-verified after a successful analysis run.
+- **Implementation:** The official YouCam file and Skin Analysis task workflow is implemented in the server; a fresh synthetic-sample run returned overall 79, acne 82, redness 99, moisture 72, texture 79, and pore 65 on 21 October 2026. The competition video shows that response.
 - **Design:** A complete, responsive customer journey from consent through result to product discovery.
 - **Impact:** Gives a first-time skincare shopper a guided starting point while setting appropriate expectations for image-based analysis.
 - **Idea:** Connects cosmetic context to a shopper-controlled budget and reuse decision, with inspectable cost reasoning and a visible refusal to exceed the budget.

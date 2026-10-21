@@ -10,15 +10,23 @@ let objectUrl=null;
 let isSyntheticSample=false;
 let bagCount=0;
 let latestScores=[];
+let photoVersion=0;
+let activeAnalysis=null;
 const bag=new Map();
 const products=new Map(catalog.map(product=>[product.name,product]));
 const inr=value=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(value);
 
-function updateReady(){analyzeButton.disabled=!(selectedFile&&consent.checked)}
+function updateReady(){analyzeButton.disabled=!(selectedFile&&consent.checked)||Boolean(activeAnalysis)}
+function invalidateAnalysis(){
+  photoVersion++;activeAnalysis?.abort();activeAnalysis=null;consent.checked=false;latestScores=[];
+  document.querySelector('#results').classList.add('hidden');document.querySelector('#overall-score').textContent='—';document.querySelector('#overall-bar').style.width='0';document.querySelector('#signals-list').replaceChildren();
+  analyzeButton.innerHTML='Start my check-in <span>→</span>';updateFocus('simple');window.dispatchEvent(new CustomEvent('goodskin:clear'));
+}
 async function setFile(file){
   if(!file)return;
+  invalidateAnalysis();const selectionVersion=photoVersion;selectedFile=null;isSyntheticSample=false;updateReady();let preparedFile;
   const allowed=['image/jpeg','image/png','image/webp'];
-  const rejectFile=message=>{selectedFile=null;isSyntheticSample=false;fileInput.value='';if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;document.querySelector('#preview-image').removeAttribute('src');document.querySelector('#upload-preview').classList.add('hidden');document.querySelector('#upload-empty').classList.remove('hidden');showStatus(message,true);updateReady()};
+  const rejectFile=message=>{if(selectionVersion!==photoVersion)return;invalidateAnalysis();selectedFile=null;isSyntheticSample=false;fileInput.value='';if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;document.querySelector('#preview-image').removeAttribute('src');document.querySelector('#upload-preview').classList.add('hidden');document.querySelector('#upload-empty').classList.remove('hidden');showStatus(message,true);updateReady()};
   if(!allowed.includes(file.type)){rejectFile('Please choose a JPG, PNG, or WebP image.');return}
   if(file.size>10*1024*1024){rejectFile('That image is over 10 MB. Choose a smaller one and try again.');return}
   try{
@@ -34,10 +42,10 @@ async function setFile(file){
       context.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
       const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.9));
       if(!blob){rejectFile('This photo could not be prepared. Try a JPG or PNG image.');return}
-      selectedFile=new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg'});
-    }else{bitmap.close();selectedFile=file}
+      preparedFile=new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg'});
+    }else{bitmap.close();preparedFile=file}
   }catch{rejectFile('This photo could not be opened. Try a JPG or PNG image.');return}
-  if(objectUrl)URL.revokeObjectURL(objectUrl);
+  if(selectionVersion!==photoVersion)return;selectedFile=preparedFile;if(objectUrl)URL.revokeObjectURL(objectUrl);
   isSyntheticSample=file.name==='synthetic-sample.png';
   objectUrl=URL.createObjectURL(file);
   document.querySelector('#preview-image').src=objectUrl;
@@ -56,6 +64,7 @@ document.querySelector('#sample-photo').addEventListener('click',async()=>{
 });
 fileInput.addEventListener('change',()=>setFile(fileInput.files[0]));
 document.querySelector('#remove-photo').addEventListener('click',()=>{
+  invalidateAnalysis();
   selectedFile=null;fileInput.value='';if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;
   isSyntheticSample=false;
   document.querySelector('#preview-image').removeAttribute('src');
@@ -99,16 +108,18 @@ function showResults(data){
   updateFocus('simple');
 }
 analyzeButton.addEventListener('click',async()=>{
-  if(!selectedFile||!consent.checked)return;
+  if(!selectedFile||!consent.checked||activeAnalysis)return;
+  const requestVersion=photoVersion,controller=new AbortController();activeAnalysis=controller;
   analyzeButton.disabled=true;analyzeButton.innerHTML='<span>Reading your check-in…</span><span>◌</span>';showStatus(isSyntheticSample?'Sending the synthetic sample to YouCam for analysis. This can take a little while.':'Preparing your photo securely. This can take a little while.');
   try{
     const body=new FormData();body.append('photo',selectedFile);
-    const response=await fetch('/api/analyze',{method:'POST',body,signal:AbortSignal.timeout(210_000)});
+    const response=await fetch('/api/analyze',{method:'POST',body,signal:AbortSignal.any([controller.signal,AbortSignal.timeout(210_000)])});
     const payload=await response.json();
+    if(requestVersion!==photoVersion||controller.signal.aborted)return;
     if(!response.ok)throw new Error(payload.error||'The check-in could not be completed. Please try again.');
     showStatus('Your check-in is ready.');showResults(payload);
-  }catch(error){showStatus(error.message||'Something went wrong. Please try again.',true)}
-  finally{analyzeButton.innerHTML='Start my check-in <span>→</span>';updateReady()}
+  }catch(error){if(requestVersion===photoVersion&&!controller.signal.aborted)showStatus(error.name==='TimeoutError'?'This check-in took too long. Please try again.':error.message||'Something went wrong. Please try again.',true)}
+  finally{if(activeAnalysis===controller){activeAnalysis=null;analyzeButton.innerHTML='Start my check-in <span>→</span>';updateReady()}}
 });
 
 const focusPlans={
@@ -130,9 +141,10 @@ function updateFocus(key){
 }
 document.querySelectorAll('.focus-option').forEach(button=>button.addEventListener('click',()=>updateFocus(button.dataset.focus)));
 document.querySelector('#clear-checkin').addEventListener('click',()=>{
+  invalidateAnalysis();
   selectedFile=null;isSyntheticSample=false;fileInput.value='';consent.checked=false;if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;
   document.querySelector('#preview-image').removeAttribute('src');document.querySelector('#upload-preview').classList.add('hidden');document.querySelector('#upload-empty').classList.remove('hidden');
-  document.querySelector('#overall-score').textContent='—';document.querySelector('#overall-bar').style.width='0';document.querySelector('#signals-list').replaceChildren();document.querySelector('#results').classList.add('hidden');latestScores=[];updateFocus('simple');window.dispatchEvent(new CustomEvent('goodskin:clear'));showStatus('Your photo and check-in results were cleared from this page.');updateReady();document.querySelector('#check-in').scrollIntoView({behavior:'smooth',block:'start'});
+  showStatus('Your photo and check-in results were cleared from this page.');updateReady();document.querySelector('#check-in').scrollIntoView({behavior:'smooth',block:'start'});
 });
 
 function renderBag(){

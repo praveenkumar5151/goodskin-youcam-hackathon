@@ -23,6 +23,7 @@ With a ₹1,500 budget, an already-owned cleanser, and a lightweight / fragrance
 - The planner uses seven sample catalog entries. It keeps owned steps, applies texture and fragrance preferences, then finds the least expensive complete combination for the missing steps. It explains each selection, shows matching alternatives, and blocks adding a plan that exceeds the budget. Names, prices, and attributes are illustrative data.
 - The bag supports quantity changes and removing an item. Adding a plan skips exact products already in the bag. A downloadable decision card contains the selected preferences, prices, and optional displayed cosmetic context, without a photo, API credential, or task ID.
 - **Privacy control:** “Clear check-in” removes the selected photo preview and results from the current page and returns to the consent step. Goodskin stores no profile or history.
+- Replacing or removing a photo resets the prior result and consent. The browser stops waiting for the old request and ignores stale responses; a request already sent to YouCam may still finish there.
 
 ## Run locally
 

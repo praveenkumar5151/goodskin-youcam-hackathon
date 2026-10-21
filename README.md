@@ -25,6 +25,10 @@ With a ₹1,500 budget, an already-owned cleanser, and a lightweight / fragrance
 - **Privacy control:** “Clear check-in” removes the selected photo preview and results from the current page and returns to the consent step. Goodskin stores no profile or history.
 - Replacing or removing a photo resets the prior result and consent. The browser stops waiting for the old request and ignores stale responses; a request already sent to YouCam may still finish there.
 
+## Judge explorer
+
+See [the evaluation guide](JUDGING_GUIDE.md) for a reproducible three-minute walkthrough and the live-versus-recorded boundary. `docs/` is a static explorer generated with `node scripts/build-judge-explorer.mjs`. It uses clearly labeled recorded values, accepts no personal photos, and contains no live upload endpoint or credential. The primary Node build below performs fresh analysis.
+
 ## Run locally
 
 Requires Node.js 20 or later.

@@ -1,0 +1,185 @@
+1
+00:00:00,250 --> 00:00:03,602
+A shopper has fifteen hundred rupees and already owns cleanser.
+
+2
+00:00:03,602 --> 00:00:05,388
+What should they buy next?
+
+3
+00:00:05,388 --> 00:00:09,460
+Goodskin combines a YouCam skin check-in with a routine planner that starts
+
+4
+00:00:09,460 --> 00:00:11,246
+with what they already own.
+
+5
+00:00:12,196 --> 00:00:14,647
+Here is the actual working app.
+
+6
+00:00:14,647 --> 00:00:19,292
+I select the built-in synthetic face, then explicitly consent before
+starting analysis.
+
+7
+00:00:19,292 --> 00:00:22,474
+This public demonstration uses no real person's face.
+
+8
+00:00:22,474 --> 00:00:27,229
+Goodskin sends the image to YouCam and does not save a photo
+
+9
+00:00:27,229 --> 00:00:28,217
+or profile.
+
+10
+00:00:29,167 --> 00:00:34,241
+The server requests a signed upload, uploads the image, starts the Skin
+Analysis
+
+11
+00:00:34,241 --> 00:00:36,467
+task, and polls for completion.
+
+12
+00:00:36,467 --> 00:00:39,082
+The credential stays on the server.
+
+13
+00:00:39,082 --> 00:00:44,430
+This fresh response returns an overall score of seventy-nine and five
+cosmetic signals.
+
+14
+00:00:44,430 --> 00:00:48,217
+These are observations about one image, not a diagnosis.
+
+15
+00:00:49,167 --> 00:00:51,187
+I choose Comfort and hydration.
+
+16
+00:00:51,187 --> 00:00:54,980
+The returned moisture score of seventy-two is shown as context.
+
+17
+00:00:54,980 --> 00:00:59,588
+The shopper stays in control: this score does not decide which product to
+
+18
+00:00:59,588 --> 00:01:00,190
+buy.
+
+19
+00:01:00,190 --> 00:01:02,211
+Their preferences and budget do.
+
+20
+00:01:03,161 --> 00:01:08,043
+Now I mark cleanser as already owned and choose a lightweight texture.
+
+21
+00:01:08,043 --> 00:01:13,040
+With the fragrance-free filter on, the planner compares matching
+combinations in our seven-item
+
+22
+00:01:13,040 --> 00:01:14,078
+sample catalog.
+
+23
+00:01:14,078 --> 00:01:17,807
+Gel and sunscreen total eleven hundred and forty-eight rupees.
+
+24
+00:01:17,807 --> 00:01:23,074
+That leaves three hundred and fifty-two rupees, with no duplicate cleanser
+to buy.
+
+25
+00:01:24,024 --> 00:01:27,417
+What if the budget is only eleven hundred rupees?
+
+26
+00:01:27,417 --> 00:01:31,160
+The app shows a forty-eight rupee gap and disables Add.
+
+27
+00:01:31,160 --> 00:01:35,708
+It explains that this is the cheapest matching combination, so the shopper
+can
+
+28
+00:01:35,708 --> 00:01:38,402
+change preferences or reconsider the missing steps.
+
+29
+00:01:39,352 --> 00:01:43,054
+I restore the budget and add only the missing steps.
+
+30
+00:01:43,054 --> 00:01:47,448
+The bag contains gel and sunscreen for eleven hundred and forty-eight
+rupees.
+
+31
+00:01:47,448 --> 00:01:49,074
+The cleanser stays out.
+
+32
+00:01:49,074 --> 00:01:53,123
+This is a working prototype bag, with no checkout or orders.
+
+33
+00:01:54,073 --> 00:01:58,958
+Removing the gel brings the subtotal to six hundred and ninety-nine rupees.
+
+34
+00:01:58,958 --> 00:02:03,959
+Adding the missing steps again restores the gel without duplicating the
+sunscreen already
+
+35
+00:02:03,959 --> 00:02:05,382
+in the bag.
+
+36
+00:02:05,382 --> 00:02:08,344
+The interaction keeps the purchase decision reversible.
+
+37
+00:02:09,294 --> 00:02:12,862
+Each item explains its price and preference match.
+
+38
+00:02:12,862 --> 00:02:17,660
+A downloadable decision card is available, without the photo or credential.
+
+39
+00:02:17,660 --> 00:02:22,991
+All product names, prices, and attributes here are illustrative; this is a
+catalog
+
+40
+00:02:22,991 --> 00:02:23,688
+sandbox.
+
+41
+00:02:24,638 --> 00:02:29,377
+Our proposal for skincare retail is simple: understand the context, reuse
+what you
+
+42
+00:02:29,377 --> 00:02:33,278
+have, and make the cost of the next step explicit.
+
+43
+00:02:33,278 --> 00:02:36,814
+The integration works; the planner has eight passing tests.
+
+44
+00:02:36,814 --> 00:02:39,986
+Real shopper feedback is our next validation step.

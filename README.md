@@ -27,6 +27,8 @@ With a ₹1,500 budget, an already-owned cleanser, and a lightweight / fragrance
 
 ## Judge explorer
 
+**[Open the public explorer](https://praveenkumar5151.github.io/goodskin-youcam-hackathon/)** · **[Evaluation guide](https://praveenkumar5151.github.io/goodskin-youcam-hackathon/guide.html)** · **[Watch the current demo](https://praveenkumar5151.github.io/goodskin-youcam-hackathon/demo.html)**
+
 See [the evaluation guide](JUDGING_GUIDE.md) for a reproducible three-minute walkthrough and the live-versus-recorded boundary. `docs/` is a static explorer generated with `node scripts/build-judge-explorer.mjs`. It uses clearly labeled recorded values, accepts no personal photos, and contains no live upload endpoint or credential. The primary Node build below performs fresh analysis.
 
 ## Run locally
@@ -61,7 +63,7 @@ The photo is sent to YouCam for processing after the user checks the consent box
 
 **Current competition demo:** [`outputs/goodskin-competition-demo.mp4`](outputs/goodskin-competition-demo.mp4) (2:41, 1080p, H.264 + AAC narration) shows the upgraded app: fresh YouCam response, user-chosen focus, budget and owned-product edits, budget shortfall, and bag removal/re-addition. It uses actual browser frames captured at approximately 5 fps, with idle endings trimmed and final observed states held for narration; it is edited footage, not an uninterrupted recording. The synthetic face, synthetic narration, and illustrative catalog are disclosed. [Transcript](outputs/goodskin-competition-demo-transcript.txt) · [Captions](outputs/goodskin-competition-demo.srt) · [Local preview](outputs/goodskin-competition-preview.html).
 
-The older `goodskin-demo-explained.mp4` is an earlier-prototype reference. Use the competition demo above for the submission. A public YouTube or Vimeo URL still needs to be added to Devpost. Judge access to a hosted app also remains pending.
+The older `goodskin-demo-explained.mp4` is an earlier-prototype reference. Use the competition demo above for the submission. A public YouTube or Vimeo URL still needs to be added to Devpost. The public explorer and video are available on GitHub Pages; a hosted server for fresh analysis remains pending. The explorer explicitly uses a recorded example and does not accept personal photos.
 
 ### Current video chapters
 

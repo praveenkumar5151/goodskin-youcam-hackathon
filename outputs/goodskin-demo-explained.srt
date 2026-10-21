@@ -1,0 +1,160 @@
+1
+00:00:00,250 --> 00:00:03,751
+Choosing skincare online often starts with a wall of products.
+
+2
+00:00:03,751 --> 00:00:08,290
+Goodskin starts with a simpler question: what would you like to understand
+about your
+
+3
+00:00:08,290 --> 00:00:10,819
+skin before you decide what to explore?
+
+4
+00:00:11,769 --> 00:00:16,547
+Goodskin is a working skincare storefront prototype powered by YouCam Skin
+Analysis.
+
+5
+00:00:16,547 --> 00:00:21,394
+Let's follow one shopper from a consent based check-in to a small routine,
+and
+
+6
+00:00:21,394 --> 00:00:24,441
+see exactly where the AI adds value.
+
+7
+00:00:25,391 --> 00:00:28,160
+First, I choose the built-in synthetic sample.
+
+8
+00:00:28,160 --> 00:00:33,416
+It is AI generated, so this public demo uses no real person's face.
+
+9
+00:00:33,416 --> 00:00:37,251
+A shopper can also select their own clear, front-facing photo.
+
+10
+00:00:38,201 --> 00:00:42,654
+Before analysis, Goodskin explains that the photo will be sent to YouCam.
+
+11
+00:00:42,654 --> 00:00:46,140
+The shopper must give consent and press Start my check-in.
+
+12
+00:00:46,140 --> 00:00:48,334
+Goodskin does not save the photo.
+
+13
+00:00:49,284 --> 00:00:53,937
+Behind that button, the Node server requests a signed upload, sends the
+image, starts
+
+14
+00:00:53,937 --> 00:00:57,194
+YouCam's Skin Analysis task, and polls for completion.
+
+15
+00:00:57,194 --> 00:01:00,451
+The API key stays on the server.
+
+16
+00:01:01,401 --> 00:01:06,945
+Here is the actual result from this synthetic sample: an overall score of
+seventy-nine,
+
+17
+00:01:06,945 --> 00:01:11,223
+with separate signals for acne, redness, moisture, texture, and pores.
+
+18
+00:01:11,223 --> 00:01:15,897
+These cosmetic observations describe this image and can change with
+lighting.
+
+19
+00:01:15,897 --> 00:01:18,194
+They are not a diagnosis.
+
+20
+00:01:19,144 --> 00:01:21,588
+Now I choose Comfort and hydration.
+
+21
+00:01:21,588 --> 00:01:26,548
+Goodskin shows the returned moisture signal as context and highlights the
+sample cream.
+
+22
+00:01:26,548 --> 00:01:28,633
+The shopper chooses this focus.
+
+23
+00:01:28,633 --> 00:01:33,233
+A skin score does not diagnose a need or select a purchase.
+
+24
+00:01:34,183 --> 00:01:38,279
+The routine is deliberately small: cleanser, moisturizer, and sunscreen.
+
+25
+00:01:38,279 --> 00:01:44,131
+This connects the check-in to a manageable shopping decision, while leaving
+room for the
+
+26
+00:01:44,131 --> 00:01:45,301
+shopper's preferences.
+
+27
+00:01:45,301 --> 00:01:48,143
+Product names and prices are illustrative.
+
+28
+00:01:49,093 --> 00:01:52,132
+I add Daily Comfort Cream to the bag.
+
+29
+00:01:52,132 --> 00:01:55,516
+The subtotal updates to eight hundred and ninety-nine rupees.
+
+30
+00:01:55,516 --> 00:01:57,519
+This demonstrates the storefront interaction.
+
+31
+00:01:57,519 --> 00:02:01,594
+The prototype has no checkout and does not place an order.
+
+32
+00:02:02,544 --> 00:02:07,082
+Finally, Clear check-in removes the photo preview and results from the page.
+
+33
+00:02:07,082 --> 00:02:10,202
+The app returns to an unchecked consent step.
+
+34
+00:02:10,202 --> 00:02:14,030
+There is no saved profile or check-in history in Goodskin.
+
+35
+00:02:14,980 --> 00:02:20,958
+Goodskin demonstrates a complete YouCam integration and an explainable
+retail journey: get consent,
+
+36
+00:02:20,958 --> 00:02:25,996
+understand returned signals, choose a focus, and explore a simple routine.
+
+37
+00:02:25,996 --> 00:02:26,765
+Goodskin.
+
+38
+00:02:26,765 --> 00:02:28,387
+Skincare, with context.

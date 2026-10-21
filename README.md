@@ -43,16 +43,21 @@ The photo is sent to YouCam for processing after the user checks the consent box
 
 **Description:** Goodskin is a calmer way to move from a skin check-in to a shopping decision. With explicit consent, a visitor can use YouCam AI Skin Analysis with a real photo or a bundled AI-generated sample. Goodskin shows returned cosmetic signals with their limits, then asks the shopper what matters today. That self-chosen focus can highlight a matching item in a deliberately small routine; an AI score never diagnoses, assigns a need, or decides what to buy. A one-click clear control removes the photo and results from the page. The API key stays server-side, and Goodskin does not save photos, profiles, or check-in history. Product names and prices are illustrative; there is no checkout.
 
-**Submission assets:** The refreshed captioned demo is [`outputs/goodskin-demo.webm`](outputs/goodskin-demo.webm) (108 seconds, 16:9, original ambient audio). Its focus-builder scene is a clearly labeled reconstruction of the current interaction; the API result scene reflects one successful live India-region synthetic-sample response. The video has captions and music but no spoken narration. The local recording plan is [`outputs/goodskin-demo-v2-script.md`](outputs/goodskin-demo-v2-script.md). Before final submission, publish the refreshed source to the public repository and attach the public video URL to the Devpost draft. The local app and video preview are not public hosted links.
+**Narrated demo:** [`outputs/goodskin-demo-explained.mp4`](outputs/goodskin-demo-explained.mp4) is the current demo (2:29, 1920×1080, H.264 video and AAC speech). It explains the shopper problem, the YouCam API workflow, the live result, the shopper-selected focus, and the illustrative routine and bag. Product screens are captured from the current app after a fresh successful India-region synthetic-sample analysis; no reconstructed product screen is used. It is an edited screen walkthrough with synthetic narration and embedded captions. The [transcript](outputs/goodskin-demo-explained-transcript.txt), [caption file](outputs/goodskin-demo-explained.srt), and [local preview page](outputs/goodskin-demo-preview.html) are included. Before final submission, upload this MP4 to YouTube, Vimeo, or Youku and add its public URL to the Devpost draft. The local app and preview are not public hosted links.
 
-### Demo outline (about 90 seconds)
+### Narrated walkthrough (2:29)
 
-1. **0:00–0:12** — Introduce the problem: skincare shoppers get too many product choices without enough context.
-2. **0:12–0:28** — Open Goodskin and explain the consent-first skin check-in and photo guidance.
-3. **0:28–0:48** — Select the bundled synthetic portrait, review the YouCam consent, and start the check-in.
-4. **0:48–1:05** — Review the returned signals and explain the disclaimer: this is not a diagnosis and results depend on the photo.
-5. **1:05–1:20** — Choose a personal focus; show how the matching returned signal is simply context and the shopper’s choice highlights an illustrative item.
-6. **1:20–1:30** — Show the small routine and bag prototype, then point out the clear-check-in control and close on the product idea.
+1. **0:00 — What should I explore first?**
+2. **0:12 — Meet Goodskin**
+3. **0:25 — Start with a photo**
+4. **0:38 — Ask before sending**
+5. **0:49 — YouCam does the analysis**
+6. **1:01 — Read the returned signals**
+7. **1:19 — The shopper chooses the focus**
+8. **1:34 — Keep the next step small**
+9. **1:49 — Explore an item in the bag**
+10. **2:02 — Clear the check-in**
+11. **2:15 — Skincare, with context.**
 
 ## Judging fit
 

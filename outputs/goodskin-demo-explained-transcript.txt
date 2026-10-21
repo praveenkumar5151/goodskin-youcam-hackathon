@@ -1,0 +1,41 @@
+Goodskin — narrated product walkthrough
+
+Length: 00:02:29.087
+Actual current app screens, a fresh live YouCam synthetic-sample response, and synthetic narration. No reconstructed product screen is used.
+
+00:00:00.000 — What should I explore first?
+Choosing skincare online often starts with a wall of products. Goodskin starts with a simpler question: what would you like to understand about your skin before you decide what to explore?
+
+00:00:11.519 — Meet Goodskin
+Goodskin is a working skincare storefront prototype powered by YouCam Skin Analysis. Let's follow one shopper from a consent based check-in to a small routine, and see exactly where the AI adds value.
+
+00:00:25.141 — Start with a photo
+First, I choose the built-in synthetic sample. It is AI generated, so this public demo uses no real person's face. A shopper can also select their own clear, front-facing photo.
+
+00:00:37.951 — Ask before sending
+Before analysis, Goodskin explains that the photo will be sent to YouCam. The shopper must give consent and press Start my check-in. Goodskin does not save the photo.
+
+00:00:49.034 — YouCam does the analysis
+Behind that button, the Node server requests a signed upload, sends the image, starts YouCam's Skin Analysis task, and polls for completion. The API key stays on the server.
+
+00:01:01.151 — Read the returned signals
+Here is the actual result from this synthetic sample: an overall score of seventy-nine, with separate signals for acne, redness, moisture, texture, and pores. These cosmetic observations describe this image and can change with lighting. They are not a diagnosis.
+
+00:01:18.894 — The shopper chooses the focus
+Now I choose Comfort and hydration. Goodskin shows the returned moisture signal as context and highlights the sample cream. The shopper chooses this focus. A skin score does not diagnose a need or select a purchase.
+
+00:01:33.933 — Keep the next step small
+The routine is deliberately small: cleanser, moisturizer, and sunscreen. This connects the check-in to a manageable shopping decision, while leaving room for the shopper's preferences. Product names and prices are illustrative.
+
+00:01:48.843 — Explore an item in the bag
+I add Daily Comfort Cream to the bag. The subtotal updates to eight hundred and ninety-nine rupees. This demonstrates the storefront interaction. The prototype has no checkout and does not place an order.
+
+00:02:02.294 — Clear the check-in
+Finally, Clear check-in removes the photo preview and results from the page. The app returns to an unchecked consent step. There is no saved profile or check-in history in Goodskin.
+
+00:02:14.730 — Skincare, with context.
+Goodskin demonstrates a complete YouCam integration and an explainable retail journey: get consent, understand returned signals, choose a focus, and explore a simple routine. Goodskin. Skincare, with context.
+
+Narration: Kokoro-82M voice af_sarah (synthetic); generated locally with kokoro-onnx.
+Model: Apache 2.0. Runtime: MIT. Source: https://github.com/thewh1teagle/kokoro-onnx
+The app screens and scores are from the real Goodskin UI. Product names and prices are illustrative.
